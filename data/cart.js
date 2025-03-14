@@ -17,7 +17,22 @@ if(!cart){
 function saveToStorage(){
   localStorage.setItem('cart', JSON.stringify(cart));
 }
+export function calculateCartQuantity(){
+  let cartQuantity=0
 
+  cart.forEach((cartItem)=>{
+    cartQuantity+=cartItem.quantity
+  })
+  return cartQuantity
+}
+export function updateCartQuantity2(productId,newQuantity){
+  cart.forEach((cartItem)=>{
+      if(productId === cartItem.productId){
+          cartItem.quantity=newQuantity;
+      }
+  })
+  saveToStorage()
+}
 export function addToCart(productId,productQuantity){
     let matchingItem;
   const productQuantityNumber=Number(productQuantity)
