@@ -1,7 +1,10 @@
 import {cart, addToCart,calculateCartQuantity} from '../data/cart.js';
-import {products} from '../data/products.js';
+import {products,loadProducts} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
-updateCartQuantity();;
+
+loadProducts(renderProductgrid)
+function renderProductgrid(){
+updateCartQuantity();
 let productHtml=''
 products.forEach((product)=>{
   productHtml+= `    
@@ -88,8 +91,4 @@ button.addEventListener('click',()=>{
 })
 })
  
- function calculate(){
- let solution= 2*3
- return solution;
- }
- console.log(calculate())
+}
