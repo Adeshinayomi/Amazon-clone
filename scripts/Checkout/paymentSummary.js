@@ -74,7 +74,7 @@ document.querySelector('.js-place-order').addEventListener('click', async ()=>{
         cart:cart
       })
     });
-    const order = await response.json()
+    const order = await response.json();
     addOrder(order)
   }catch(error){
     console.log('Unexpected error.Try again later.')
