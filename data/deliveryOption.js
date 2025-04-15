@@ -48,3 +48,11 @@ export function calculateDeliveeryDate(deliveryOption){
   const dateString =deliveryDate.format('dddd, MMMM D');
   return dateString
 }
+export function todayDate(){
+  const today=dayjs()
+  const time=today.format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+  console.log(time)
+  const dateString=today.format('MMMM D')
+
+  return dateString;
+}

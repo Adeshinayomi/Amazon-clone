@@ -1,15 +1,31 @@
 import { orders } from "../data/order.js";
 import { formatCurrency } from "./utils/money.js";
 import { getProduct,loadProductsFetch,loadProducts} from "../data/products.js";
-import { loadCartFetch,addToCart } from "../data/cart.js";
+import { loadCartFetch,addToCart,cart } from "../data/cart.js";
+import { getDeliveryOption,calculateDeliveeryDate,todayDate } from "../data/deliveryOption.js";
+
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+
 console.log(orders)
 loadProducts(loadOrder)
   function loadOrder(){
   let html=''
 
+    const dayplaced=orders[0].orderTime
+    const dayOrderPlace=dayjs(dayplaced).format('MMMM D')
     const orderProducts=orders[0].products
     orderProducts.forEach((orderproduct)=>{
       const productId=orderproduct.productId
+      let dateString=''
+        cart.forEach((cartItem)=>{
+          if(cartItem.productId === productId){
+            const deliveryOptionId =cartItem.deliveryOptionId;
+        
+            const deliveryOption= getDeliveryOption(deliveryOptionId)
+            
+            dateString = calculateDeliveeryDate(deliveryOption)     
+          }
+        })
 
       const matchingProduct=getProduct(productId);
       html+=`
@@ -19,7 +35,7 @@ loadProducts(loadOrder)
           <div class="order-header-left-section">
             <div class="order-date">
               <div class="order-header-label">Order Placed:</div>
-              <div>June 10</div>
+              <div>${dayOrderPlace}</div>
             </div>
             <div class="order-total">
               <div class="order-header-label">Total:</div>
@@ -43,7 +59,7 @@ loadProducts(loadOrder)
               ${matchingProduct.name}
             </div>
             <div class="product-delivery-date">
-              Arriving on: June 17
+              Arriving on: ${dateString}
             </div>
             <div class="product-quantity">
               Quantity: ${orderproduct.quantity}
@@ -55,7 +71,7 @@ loadProducts(loadOrder)
           </div>
 
           <div class="product-actions">
-            <a href="tracking.html?orderId=${orders[0].id}&&productId=${productId}}">
+            <a href="tracking.html?orderId=${orders[0].id}&&productId=${productId}">
               <button class="track-package-button button-secondary">
                 Track package
               </button>
