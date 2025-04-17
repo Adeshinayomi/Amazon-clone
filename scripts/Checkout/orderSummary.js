@@ -25,7 +25,8 @@ cart.forEach((cartItem)=>{
 
   const deliveryOption= getDeliveryOption(deliveryOptionId)
   
-   const dateString = calculateDeliveeryDate(deliveryOption)
+   const dateObject = calculateDeliveeryDate(deliveryOption)
+   const dateString=dateObject.dateString
 
  cartSummary+= `
             <div class="cart-item-container js-cart-item-container js-cart-item-${matchingProducts.id}">
@@ -74,7 +75,8 @@ cart.forEach((cartItem)=>{
 function deliveryOptionsHtml(matchingProducts,cartItem){
   let html = ""
   deliveryOptions.forEach((deliveryOption)=>{
-  const dateString=calculateDeliveeryDate(deliveryOption)
+   const dateObject=calculateDeliveeryDate(deliveryOption)
+    const dateString=dateObject.dateString;
 
     const priceString= deliveryOption.priceCents === 0? 'FREE Shipping' : `$${formatCurrency(deliveryOption.priceCents)}- Shipping`
     const isChecked= deliveryOption.id === cartItem.deliveryOptionId

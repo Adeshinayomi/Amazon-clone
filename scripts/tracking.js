@@ -1,8 +1,9 @@
 import { getProduct,loadProducts } from "../data/products.js";
 import { orders } from "../data/order.js";
 import { cart } from "../data/cart.js";
-import { getDeliveryOption,calculateDeliveeryDate } from "../data/deliveryOption.js";
+import { getDeliveryOption,calculateDeliveeryDate,todayDate } from "../data/deliveryOption.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+
 loadProducts(loadTracking);
 function loadTracking(){
   let html=""
@@ -14,13 +15,16 @@ function loadTracking(){
 
   const matchingProduct=getProduct(productId);
   let dateString=''
+  let Deliverydaystring=''
   cart.forEach((cartItem)=>{
     if(cartItem.productId === productId){
       const deliveryOptionId =cartItem.deliveryOptionId;
   
       const deliveryOption= getDeliveryOption(deliveryOptionId)
       
-      dateString = calculateDeliveeryDate(deliveryOption)     
+     const dateObject = calculateDeliveeryDate(deliveryOption) 
+      dateString=dateObject.dateString    
+      Deliverydaystring=dateObject.daystring
     }
   })
 
@@ -29,10 +33,6 @@ function loadTracking(){
     orders.forEach(order => {
 
       if(order.id === orderId){
-        const orderTime=order.orderTime
-        const time=dayjs(orderTime).format('')
-           
-        console.log(time)
         const orderproducts=order.products
         orderproducts.forEach((product)=>{
           if(product.productId === productId){
@@ -70,7 +70,7 @@ function loadTracking(){
           <div class="progress-label">
             Preparing
           </div>
-          <div class="progress-label current-status">
+          <div class="progress-label">
             Shipped
           </div>
           <div class="progress-label">
@@ -79,10 +79,45 @@ function loadTracking(){
         </div>
 
         <div class="progress-bar-container">
-          <div class="progress-bar"></div>
+          <div class="progress-bar js-progress-bar"></div>
         </div>
       </div>
   `
 
   document.querySelector('.main').innerHTML=html
+  const currentdate=todayDate()
+  let progress=''
+  orders.forEach((order)=>{
+    if(order.id === orderId){
+      const orderTime=order.orderTime
+      const time=dayjs(orderTime).format('D')
+         
+       progress=(Number(currentdate)-Number(time))/(Number(Deliverydaystring)-Number(time))
+       const widte=Math.floor(progress*100)
+       document.querySelector('.js-progress-bar').style=`width:${widte}%`
+
+       if(widte>= 0 && widte <=49){
+        console.log(1)
+        document.querySelectorAll('.progress-label').forEach((label)=>{
+          if(label.textContent.includes('Preparing')){
+            label.classList.add('current-status')
+          }
+        })
+       }else if(widte>=50 && widte <=99){
+        document.querySelectorAll('.progress-label').forEach((label)=>{
+          if(label.textContent.includes('Shipped')){
+            label.classList.add('current-status')
+          }
+        })
+       }else if(widte>=100){
+        document.querySelectorAll('.progress-label').forEach((label)=>{
+          if(label.textContent.includes('Delivered')){
+            label.classList.add('current-status')
+          }
+        })
+       }
+    }
+  })
+
 }
+

@@ -2,7 +2,7 @@ import { orders } from "../data/order.js";
 import { formatCurrency } from "./utils/money.js";
 import { getProduct,loadProductsFetch,loadProducts} from "../data/products.js";
 import { loadCartFetch,addToCart,cart } from "../data/cart.js";
-import { getDeliveryOption,calculateDeliveeryDate,todayDate } from "../data/deliveryOption.js";
+import { getDeliveryOption,calculateDeliveeryDate} from "../data/deliveryOption.js";
 
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
@@ -23,7 +23,8 @@ loadProducts(loadOrder)
         
             const deliveryOption= getDeliveryOption(deliveryOptionId)
             
-            dateString = calculateDeliveeryDate(deliveryOption)     
+           const dateObject= calculateDeliveeryDate(deliveryOption) 
+           dateString=dateObject.dateString    
           }
         })
 

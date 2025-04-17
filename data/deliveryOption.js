@@ -44,15 +44,18 @@ export function calculateDeliveeryDate(deliveryOption){
       remainingDays--
     }
   }
-
+  const daystring=deliveryDate.format('D')
   const dateString =deliveryDate.format('dddd, MMMM D');
-  return dateString
+  return {
+    daystring:daystring,
+    dateString:dateString
+  }
 }
 export function todayDate(){
   const today=dayjs()
-  const time=today.format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+  const time=today.format('D')
   console.log(time)
   const dateString=today.format('MMMM D')
 
-  return dateString;
+  return time
 }
