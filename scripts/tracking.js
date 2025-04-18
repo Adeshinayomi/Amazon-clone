@@ -2,6 +2,7 @@ import { getProduct,loadProducts } from "../data/products.js";
 import { orders } from "../data/order.js";
 import { cart } from "../data/cart.js";
 import { getDeliveryOption,calculateDeliveeryDate,todayDate } from "../data/deliveryOption.js";
+import { renderProductgrid } from "./amazon.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 loadProducts(loadTracking);
@@ -120,4 +121,8 @@ function loadTracking(){
   })
 
 }
-
+document.querySelector('.js-search-btn').addEventListener('click',()=>{
+  const search=document.querySelector('.js-search-bar').value;
+  window.location=`amazon.html?search=${search}`
+  renderProductgrid()
+})

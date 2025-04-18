@@ -1,12 +1,31 @@
 import {cart, addToCart,calculateCartQuantity} from '../data/cart.js';
 import {products,loadProducts} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
+ function  getSearchProduct(){
+  let fetchSearchProduct=''
+  const url=new URL(window.location.href);
+  const search=url.searchParams.get('search')
 
+  
+  if(search){
+   fetchSearchProduct=products.filter((product)=>{
+    return product.name.includes(search)
+   }) 
+  }
+    return fetchSearchProduct
+}
 loadProducts(renderProductgrid)
-function renderProductgrid(){
-updateCartQuantity();
-let productHtml=''
-products.forEach((product)=>{
+export function renderProductgrid(){
+  let fetchProduct=products
+  let productHtml=''
+  updateCartQuantity();
+
+  if(getSearchProduct()=== ''){
+    fetchProduct = products
+  }else{
+    fetchProduct = getSearchProduct()
+  }
+fetchProduct.forEach((product)=>{
   productHtml+= `    
       <div class="product-container">
           <div class="product-image-container">
@@ -57,7 +76,7 @@ products.forEach((product)=>{
           </button>
         </div>
 `;
-console.log(productHtml)
+// console.log(productHtml)
 })
 
 
@@ -90,5 +109,10 @@ button.addEventListener('click',()=>{
 
 })
 })
- 
+
+document.querySelector('.js-search-btn').addEventListener('click',()=>{
+  const search=document.querySelector('.js-search-bar').value
+  window.location=`amazon.html?search=${search}`
+  renderProductgrid()
+})
 }
