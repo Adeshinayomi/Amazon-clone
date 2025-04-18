@@ -95,6 +95,7 @@ function loadTracking(){
          
        progress=(Number(currentdate)-Number(time))/(Number(Deliverydaystring)-Number(time))
        const widte=Math.floor(progress*100)
+       
        document.querySelector('.js-progress-bar').style=`width:${widte}%`
 
        if(widte>= 0 && widte <=49){
