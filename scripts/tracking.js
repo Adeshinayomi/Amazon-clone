@@ -1,6 +1,6 @@
 import { getProduct,loadProducts } from "../data/products.js";
 import { orders } from "../data/order.js";
-import { cart } from "../data/cart.js";
+import { cart,calculateCartQuantity } from "../data/cart.js";
 import { getDeliveryOption,calculateDeliveeryDate,todayDate } from "../data/deliveryOption.js";
 import { renderProductgrid } from "./amazon.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
@@ -8,6 +8,7 @@ import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 loadProducts(loadTracking);
 function loadTracking(){
   let html=""
+  updateCartQuantity()
   const url=new URL(window.location.href);
   const orderId=url.searchParams.get('orderId')
   const productId=url.searchParams.get('productId');
@@ -99,7 +100,6 @@ function loadTracking(){
        document.querySelector('.js-progress-bar').style=`width:${widte}%`
 
        if(widte>= 0 && widte <=49){
-        console.log(1)
         document.querySelectorAll('.progress-label').forEach((label)=>{
           if(label.textContent.includes('Preparing')){
             label.classList.add('current-status')
@@ -122,6 +122,11 @@ function loadTracking(){
   })
 
 }
+  function updateCartQuantity(){
+   let cartQuantity= calculateCartQuantity();
+    
+  document.querySelector('.js-cart-quantity').innerHTML=cartQuantity
+  }
 document.querySelector('.js-search-btn').addEventListener('click',()=>{
   const search=document.querySelector('.js-search-bar').value;
   window.location=`amazon.html?search=${search}`

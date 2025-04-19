@@ -1,7 +1,7 @@
 import { orders } from "../data/order.js";
 import { formatCurrency } from "./utils/money.js";
 import { getProduct,loadProductsFetch,loadProducts} from "../data/products.js";
-import { loadCartFetch,addToCart,cart } from "../data/cart.js";
+import { loadCartFetch,addToCart,cart,calculateCartQuantity } from "../data/cart.js";
 import { getDeliveryOption,calculateDeliveeryDate} from "../data/deliveryOption.js";
 import { renderProductgrid  } from "./amazon.js";
 
@@ -11,7 +11,7 @@ console.log(orders)
 loadProducts(loadOrder)
   function loadOrder(){
   let html=''
-
+    updateCartQuantity()
     const dayplaced=orders[0].orderTime
     const dayOrderPlace=dayjs(dayplaced).format('MMMM D')
     const orderProducts=orders[0].products
@@ -95,7 +95,11 @@ loadProducts(loadOrder)
   })
 
 }
-
+  function updateCartQuantity(){
+   let cartQuantity= calculateCartQuantity();
+    
+  document.querySelector('.js-cart-quantity').innerHTML=cartQuantity
+  }
 document.querySelector('.js-search-btn').addEventListener('click',()=>{
   const search=document.querySelector('.js-search-bar').value;
   window.location=`amazon.html?search=${search}`
