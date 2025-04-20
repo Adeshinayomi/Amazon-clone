@@ -5,11 +5,11 @@ import { formatCurrency } from './utils/money.js';
   let fetchSearchProduct=''
   const url=new URL(window.location.href);
   const search=url.searchParams.get('search')
-  const searchCase=search.toLowerCase()
+  const searchCase=search
   
   if(searchCase){
    fetchSearchProduct=products.filter((product)=>{
-    return product.keywords.includes(searchCase)
+    return product.keywords.includes(searchCase.toLowerCase())
    }) 
   }
     return fetchSearchProduct

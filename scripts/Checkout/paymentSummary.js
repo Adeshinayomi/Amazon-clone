@@ -64,6 +64,11 @@ function updateCartQuantity(){
 updateCartQuantity();
 
 document.querySelector('.js-place-order').addEventListener('click', async ()=>{
+  if(cart.length === 0){
+    alert('Please add items to cart before placing an order')
+    return
+  }
+
   try{
     const response = await fetch('https://supersimplebackend.dev/orders',{
       method:'POST',
