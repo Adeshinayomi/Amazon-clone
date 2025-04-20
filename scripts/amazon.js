@@ -9,7 +9,7 @@ import { formatCurrency } from './utils/money.js';
   
   if(searchCase){
    fetchSearchProduct=products.filter((product)=>{
-    return product.keywords.includes(searchCase.toLowerCase())
+    return product.keywords.includes(searchCase.toLowerCase()) || product.name.toLowerCase().includes(searchCase.toLowerCase())
    }) 
   }
     return fetchSearchProduct
